@@ -11,7 +11,8 @@ import { con } from './db.js'
 const app = express();
 app.use(cors(
     {
-        origin: ["http://localhost:5174"],
+        //origin: ["http://localhost:5174"],
+        origin: ["http://tongsiripath.mypressonline.com"],
         methods: ["POST", "GET", "PUT", "DELETE"],
         credentials: true
     }
