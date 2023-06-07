@@ -127,7 +127,7 @@ app.get('/salary', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
-    const sql = "SELECT * FROM tbl_users Where email = ? AND  password = ?";
+    const sql = "SELECT * FROM tbl_users Where email = ? AND  passwd = ?";
     con.query(sql, [req.body.email, req.body.password], (err, result) => {
         if(err) return res.json({Status: "Error", Error: "Error in runnig query"});
         if(result.length > 0) {
