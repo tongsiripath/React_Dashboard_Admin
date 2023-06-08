@@ -12,7 +12,7 @@ const app = express();
 app.use(cors(
     {
         //origin: ["http://localhost:5174"],
-        origin: ["http://tongsiripath.mypressonline.com"],
+        origin: ["http://tongsiripath.mypressonline.com","http://localhost:5174"],
         methods: ["POST", "GET", "PUT", "DELETE"],
         credentials: true
     }
@@ -21,12 +21,6 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.static('public'));
 
-// const con = mysql.createConnection({
-//     host: "localhost",
-//     user: "root",
-//     password: "",
-//     database: "reacthosting_db"
-// })
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -134,7 +128,7 @@ app.post('/login', (req, res) => {
             const id = result[0].id;
             const token = jwt.sign({role: "admin"}, "jwt-secret-key", {expiresIn: '1d'});
             res.cookie('token', token);
-            return res.json({Status: "Success"})
+            return res.json({Status: "Success", Data: token})
         } else {
             return res.json({Status: "Error", Error: "Wrong Email or Password"});
         }
