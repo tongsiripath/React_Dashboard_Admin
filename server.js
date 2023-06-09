@@ -98,7 +98,7 @@ const verifyUser = (req, res, next) => {
 // })
 
 app.get('/dashboard',(req, res) => {
-    return res.json({Status: "Success"})
+    return res.json({Status: "Success", role: "admin"})
 })
 
 app.post('/login', (req, res) => {
