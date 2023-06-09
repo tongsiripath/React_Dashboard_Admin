@@ -119,7 +119,7 @@ app.post('/login', (req, res) => {
 })
 
 app.get('/logout', (req, res) => {
-    res.clearCookie('token_aaa');
+    //res.clearCookie('token_aaa');//ใช้ตัวนี้ใน Hosting ไม่ทำงาน
     return res.json({Status: "Success"});
 })
 
