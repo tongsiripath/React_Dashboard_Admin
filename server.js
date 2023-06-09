@@ -95,13 +95,13 @@ const verifyUser = (req, res, next) => {
     }
 }
 
-app.get('/dashboard',verifyUser, (req, res) => {
+// app.get('/dashboard',verifyUser, (req, res) => {
+//     return res.json({Status: "Success", role: req.role, id: req.id})
+// })
+
+app.get('/dashboard',(req, res) => {
     return res.json({Status: "Success", role: req.role, id: req.id})
 })
-
-// app.get('/dashboard',(req, res) => {
-//     return res.json({Status: "Success", role: req.role})
-// })
 
 app.post('/login', (req, res) => {
     const sql = "SELECT * FROM tbl_users Where email = ? AND  password = ?";
@@ -110,7 +110,7 @@ app.post('/login', (req, res) => {
         if(result.length > 0) {
             const id = result[0].id;
             const token = jwt.sign({role: "admin", id: id}, "jwt-secret-key", {expiresIn: '1d'});
-            //res.cookie('token_aaa', token);
+            //res.cookie('token_aaa', token);//ใช้ตัวนี้ใน Hosting ไม่ทำงาน
             return res.json({Status: "Success", Data: token})
         } else {
             return res.json({Status: "Error", Error: "Wrong Email or Password"});
