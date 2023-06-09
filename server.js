@@ -100,7 +100,7 @@ const verifyUser = (req, res, next) => {
 // })
 
 app.get('/dashboard',(req, res) => {
-    return res.json({Status: "Success", role: req.role, id: req.id})
+    return res.json({Status: "Success for Dashboard", role: req.role, id: req.id})
 })
 
 app.post('/login', (req, res) => {
