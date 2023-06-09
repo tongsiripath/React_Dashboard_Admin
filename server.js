@@ -93,8 +93,12 @@ const verifyUser = (req, res, next) => {
     }
 }
 
-app.get('/dashboard',verifyUser, (req, res) => {
-    return res.json({Status: "Success", role: req.role, id: req.id})
+// app.get('/dashboard',verifyUser, (req, res) => {
+//     return res.json({Status: "Success", role: req.role, id: req.id})
+// })
+
+app.get('/dashboard',(req, res) => {
+    return res.json({Status: "Success"})
 })
 
 app.post('/login', (req, res) => {
