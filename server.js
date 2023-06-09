@@ -80,7 +80,7 @@ app.delete('/delete/:id', (req, res) => {
 })
 
 const verifyUser = (req, res, next) => {
-    const token = req.cookies.token;
+    const token = req.cookies.token_aaa;
     if(!token) {
         return res.json({Error: "You are no Authenticated"});
     } else {
@@ -96,6 +96,27 @@ const verifyUser = (req, res, next) => {
 app.get('/dashboard',verifyUser, (req, res) => {
     return res.json({Status: "Success", role: req.role, id: req.id})
 })
+
+app.post('/login', (req, res) => {
+    const sql = "SELECT * FROM tbl_users Where email = ? AND  password = ?";
+    con.query(sql, [req.body.email, req.body.password], (err, result) => {
+        if(err) return res.json({Status: "Error", Error: "Error in runnig query"});
+        if(result.length > 0) {
+            const id = result[0].id;
+            const token = jwt.sign({role: "admin"}, "jwt-secret-key", {expiresIn: '1d'});
+            //res.cookie('token_aaa', token);
+            return res.json({Status: "Success", Data: token})
+        } else {
+            return res.json({Status: "Error", Error: "Wrong Email or Password"});
+        }
+    })
+})
+
+app.get('/logout', (req, res) => {
+    res.clearCookie('token_aaa');
+    return res.json({Status: "Success"});
+})
+
 
 app.get('/adminCount', (req, res) => {
     const sql = "Select count(id) as admin from tbl_users";
@@ -120,20 +141,7 @@ app.get('/salary', (req, res) => {
     })
 })
 
-app.post('/login', (req, res) => {
-    const sql = "SELECT * FROM tbl_users Where email = ? AND  password = ?";
-    con.query(sql, [req.body.email, req.body.password], (err, result) => {
-        if(err) return res.json({Status: "Error", Error: "Error in runnig query"});
-        if(result.length > 0) {
-            const id = result[0].id;
-            const token = jwt.sign({role: "admin"}, "jwt-secret-key", {expiresIn: '1d'});
-            res.cookie('token', token);
-            return res.json({Status: "Success", Data: token})
-        } else {
-            return res.json({Status: "Error", Error: "Wrong Email or Password"});
-        }
-    })
-})
+
 
 app.post('/employeelogin', (req, res) => {
     const sql = "SELECT * FROM tbl_employee Where email = ?";
@@ -170,10 +178,6 @@ app.post('/employeelogin', (req, res) => {
 
 
 
-app.get('/logout', (req, res) => {
-    res.clearCookie('token');
-    return res.json({Status: "Success"});
-})
 
 app.post('/create',upload.single('image'), (req, res) => {
     //console.log(req.file);
