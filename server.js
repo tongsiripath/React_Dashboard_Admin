@@ -82,6 +82,7 @@ app.delete('/delete/:id', (req, res) => {
 const verifyUser = (req, res, next) => {
     const token = req.cookies.token_aaa;
     if(!token) {
+        console.log(token)
         return res.json({Error: "You are no Authenticated"});
     } else {
         jwt.verify(token, "jwt-secret-key", (err, decoded) => {
